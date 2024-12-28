@@ -10,7 +10,7 @@ I wanted to warm-up for next period's course of High Performance Computing, whic
 
 This is my attempt at replicating Pezzza's project, ensuring I thoroughly understand the employed concepts. His video, which sparked my curiosity: https://www.youtube.com/watch?v=9IULfQH7E90
 
-# System Components Overview
+## Components Overview
 
 - [`main.cpp`](src/main.cpp): Application entry point, handles configuration and main loop.
 - [`Simulator`](src/simulator.cpp): Physics simulation of particles.
@@ -21,7 +21,7 @@ This is my attempt at replicating Pezzza's project, ensuring I thoroughly unders
 
 # Getting Started
 
-**Prerequisites**
+## Prerequisites
    
    Have [CMake](https://cmake.org/) and [SFML](https://www.sfml-dev.org/) installed. 
    On Arch Linux, you can install them with:
