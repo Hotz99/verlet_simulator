@@ -1,19 +1,19 @@
+#include <iostream>
+#include <math.h>
+#include <thread>
+
+#include <SFML/Graphics.hpp>
+
 #include "./physics/simulator.hpp"
 #include "./renderer.hpp"
 #include "./thread_pool.hpp"
 #include "./utils/color_utils.hpp"
 #include "./utils/input_handler.hpp"
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include <math.h>
-#include <stdio.h>
-#include <thread>
 
 static const std::string UI_FONT_PATH = "../assets/dejavu_sans.ttf";
 
-int main()
-{
-  // TODO finish this
+int main() {
+  // TODO finish deterministic rendering
   // freopen("colors.txt", "r", stdin);
   // freopen("positions.txt", "w", stdout);
 
@@ -21,7 +21,8 @@ int main()
   constexpr int window_height = 512;
 
   const float particle_radius = 2.0f;
-  // ~14500 entities, 512x512 window, 16 threads, minimum 60fps
+  // min 60fps on ryzen 5800x: ~14500 entities, 512x512 window, 16 worker
+  // threads
   const int max_entities = 21000;
 
   const float spawn_velocity = 500.0f;
@@ -29,9 +30,10 @@ int main()
   const int spawner_count = 20;
 
   const sf::Vector2f spawn_pos_1 = {4.0f, 50.0f};
-  // `- particle_radius + spawner_spacing` to offset the discrepancy from the spawn logic
-  const sf::Vector2f spawn_pos_2 = {window_width - 4.0f,
-                                    50.0f - (particle_radius + spawner_spacing)};
+  // `- particle_radius + spawner_spacing` to offset the discrepancy from the
+  // spawn logic
+  const sf::Vector2f spawn_pos_2 = {
+      window_width - 4.0f, 50.0f - (particle_radius + spawner_spacing)};
   const sf::Vector2f spawn_angle_1 = sf::Vector2f{0.5, 0.5};
   const sf::Vector2f spawn_angle_2 = sf::Vector2f{-0.5, 0.5};
 
@@ -57,18 +59,15 @@ int main()
   sf::Font ui_font;
   ui_font.loadFromFile(UI_FONT_PATH);
 
-  while (window.isOpen())
-  {
+  while (window.isOpen()) {
     int entity_count = simulator.entities.size();
-    if (entity_count < max_entities)
-    {
+    if (entity_count < max_entities) {
       sf::Color rgb_color =
           color_utils::get_time_based_rgb(timer.getElapsedTime().asSeconds());
 
       for (int spawner_idx = 0;
            spawner_idx < std::min(spawner_count, max_entities - entity_count);
-           spawner_idx++)
-      {
+           spawner_idx++) {
         sf::Vector2f spawner_offset =
             sf::Vector2f{0.0f, spawner_idx * spawner_spacing};
         sf::Vector2f spawn_pos =
