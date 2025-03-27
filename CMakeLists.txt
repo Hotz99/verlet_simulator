@@ -4,11 +4,10 @@ project(VerletSimulator LANGUAGES CXX)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 option(BUILD_SHARED_LIBS "build shared libraries" OFF)
 
-# we only need the `graphics` component of SFML
-find_package(SFML 2.6 COMPONENTS graphics REQUIRED)
+find_package(SFML 3.0.0 COMPONENTS Graphics Window System REQUIRED)
 
 add_executable(VerletSimulator src/main.cpp)
-target_link_libraries(VerletSimulator PRIVATE sfml-graphics)
+target_link_libraries(VerletSimulator PRIVATE sfml-graphics sfml-window sfml-system)
 target_compile_features(VerletSimulator PRIVATE cxx_std_17)
 
 add_custom_command(

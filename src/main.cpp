@@ -17,8 +17,8 @@ int main() {
   // freopen("colors.txt", "r", stdin);
   // freopen("positions.txt", "w", stdout);
 
-  constexpr int window_width = 512;
-  constexpr int window_height = 512;
+  constexpr unsigned int window_width = 512;
+  constexpr unsigned int window_height = 512;
 
   const float particle_radius = 2.0f;
   // min 60fps on ryzen 5800x: ~14500 entities, 512x512 window, 16 worker
@@ -38,9 +38,11 @@ int main() {
   const sf::Vector2f spawn_angle_2 = sf::Vector2f{-0.5, 0.5};
 
   sf::ContextSettings settings;
-  settings.antialiasingLevel = 1;
-  sf::RenderWindow window(sf::VideoMode(window_width, window_height),
-                          "Verlet Simulator", sf::Style::Default, settings);
+  settings.antiAliasingLevel = 1;
+  sf::RenderWindow window(
+      sf::VideoMode(sf::Vector2u{window_width, window_height}),
+      "Verlet Simulator", sf::State::Windowed, settings);
+
   const int frame_rate = 60;
   window.setFramerateLimit(frame_rate);
 
@@ -57,9 +59,11 @@ int main() {
   sf::Clock timer, fps_timer;
   int r, g, b;
   sf::Font ui_font;
-  ui_font.loadFromFile(UI_FONT_PATH);
+  ui_font.openFromFile(UI_FONT_PATH);
 
+  int start_up = 0;
   while (window.isOpen()) {
+
     int entity_count = simulator.entities.size();
     if (entity_count < max_entities) {
       sf::Color rgb_color =
@@ -96,8 +100,7 @@ int main() {
     renderer.new_render();
 
     // draw performance metrics
-    sf::Text metrics;
-    metrics.setFont(ui_font);
+    sf::Text metrics{ui_font};
 
     metrics.setString(std::to_string(render_time_ms) + "ms render, " +
                       std::to_string(simulator.entities.size()) + " particles");
@@ -106,6 +109,11 @@ int main() {
     window.draw(metrics);
 
     window.display();
+
+    if (start_up == 0) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+      start_up = 1;
+    }
   }
   return 0;
 }
