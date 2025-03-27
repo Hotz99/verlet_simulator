@@ -109,11 +109,6 @@ int main() {
     window.draw(metrics);
 
     window.display();
-
-    if (start_up == 0) {
-      std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-      start_up = 1;
-    }
   }
   return 0;
 }
