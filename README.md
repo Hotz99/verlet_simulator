@@ -1,4 +1,6 @@
-<p align="center"><img src="showcase.png" width="400"></p>
+<p align="center">
+  <img src="showcase.gif" width="400" alt="Showcase GIF">
+</p>
 
 ## What ?
 

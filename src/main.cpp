@@ -23,7 +23,7 @@ int main() {
   const float particle_radius = 2.0f;
   // min 60fps on ryzen 5800x: ~14500 entities, 512x512 window, 16 worker
   // threads
-  const int max_entities = 21000;
+  const int max_entities = 12000;
 
   const float spawn_velocity = 500.0f;
   const float spawner_spacing = 4.0f;
@@ -42,6 +42,10 @@ int main() {
   sf::RenderWindow window(
       sf::VideoMode(sf::Vector2u{window_width, window_height}),
       "Verlet Simulator", sf::State::Windowed, settings);
+
+  int x = (2560 - window_width) / 2;
+  int y = (1440 - window_height) / 2;
+  window.setPosition(sf::Vector2i(x, y));
 
   const int frame_rate = 60;
   window.setFramerateLimit(frame_rate);
