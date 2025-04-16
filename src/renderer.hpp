@@ -5,9 +5,10 @@
 #include "./physics/simulator.hpp"
 #include "./thread_pool.hpp"
 
-static const std::string CIRCLE_TEXTURE_PATH = "../assets/circle.png";
+static const std::string CIRCLE_TEXTURE_PATH = "./assets/circle.png";
 
-class Renderer {
+class Renderer
+{
 private:
   sf::RenderWindow &render_target;
   Simulator &simulator;
@@ -21,13 +22,15 @@ private:
 public:
   Renderer(sf::RenderWindow &window_, ThreadPool &thread_pool_,
            Simulator &solver_)
-      : render_target{window_}, simulator{solver_}, thread_pool{thread_pool_} {
+      : render_target{window_}, simulator{solver_}, thread_pool{thread_pool_}
+  {
     m_entity_texture.loadFromFile(CIRCLE_TEXTURE_PATH);
     m_entity_texture.generateMipmap();
     m_entity_texture.setSmooth(true);
   }
 
-  void new_render() {
+  void new_render()
+  {
     render_target.clear(sf::Color::Black);
     update_vertex_array();
 
@@ -36,7 +39,8 @@ public:
     render_target.draw(m_entity_vertex_array, render_states);
   }
 
-  void update_vertex_array() {
+  void update_vertex_array()
+  {
     size_t entityCount = simulator.entities.size();
 
     // 6 vertices per 2 triangles
@@ -47,7 +51,8 @@ public:
     const float radius =
         simulator.entities.empty() ? 0.0f : simulator.entities[0].radius;
 
-    thread_pool.parallel(entityCount, [&](int start, int end) {
+    thread_pool.parallel(entityCount, [&](int start, int end)
+                         {
       for (int i = start; i < end; i++) {
         const Particle &ent = simulator.entities[i];
         int id = i * 6;
@@ -80,7 +85,6 @@ public:
         for (int j = 0; j < 6; ++j) {
           m_entity_vertex_array[id + j].color = ent.color;
         }
-      }
-    });
+      } });
   }
 };
