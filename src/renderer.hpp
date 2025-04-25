@@ -5,7 +5,7 @@
 #include "./physics/simulator.hpp"
 #include "./thread_pool.hpp"
 
-static const std::string CIRCLE_TEXTURE_PATH = "../assets/circle.png";
+static const std::string CIRCLE_TEXTURE_PATH = "./assets/circle.png";
 
 class Renderer {
 private:

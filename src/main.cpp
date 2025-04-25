@@ -10,7 +10,7 @@
 #include "./utils/color_utils.hpp"
 #include "./utils/input_handler.hpp"
 
-static const std::string UI_FONT_PATH = "../assets/dejavu_sans.ttf";
+static const std::string UI_FONT_PATH = "./assets/dejavu_sans.ttf";
 constexpr unsigned WINDOW_WIDTH = 512;
 constexpr unsigned WINDOW_HEIGHT = 512;
 constexpr float PARTICLE_RADIUS = 2.0f;
@@ -62,15 +62,13 @@ int main() {
   sf::Font ui_font;
   ui_font.openFromFile(UI_FONT_PATH);
 
-  int start_up = 0;
   while (window.isOpen()) {
-
-    int entity_count = simulator.entities.size();
+    unsigned entity_count = simulator.entities.size();
     if (entity_count < MAX_ENTITIES) {
       sf::Color rgb_color =
           color_utils::get_time_based_rgb(timer.getElapsedTime().asSeconds());
 
-      for (int spawner_idx = 0;
+      for (unsigned spawner_idx = 0;
            spawner_idx < std::min(SPAWNER_COUNT, MAX_ENTITIES - entity_count);
            spawner_idx++) {
         sf::Vector2f spawner_offset =

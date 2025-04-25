@@ -23,7 +23,7 @@ ifeq ($(UNAME_S),Darwin)
     )
     
     ifeq ($(SFML_FOUND),0)
-        $(error SFML not found! Install via: brew install sfml)
+        $(error SFML not found, install with: brew install sfml)
     endif
 endif
 
